@@ -13,11 +13,16 @@ module.exports = (env, argv) => {
     },
     module: {
       rules: [
-        { test: /\.ts(x?)$/, use: [{ loader: 'ts-loader' }, { loader: 'eslint-loader' }] },
+        {
+          test: /\.ts(x?)$/,
+          exclude: /node_modules/,
+          use: [{ loader: 'ts-loader' }, { loader: 'eslint-loader' }],
+        },
       ],
     },
     resolve: {
-      extensions: ['.ts', '.tsx'],
+      extensions: ['.ts', '.tsx', '.js'],
+      modules: ['src', 'node_modules'],
     },
     devtool: IS_DEVELOPMENT ? 'source-map' : 'none',
     devServer: {
@@ -31,12 +36,12 @@ module.exports = (env, argv) => {
       minimizer: IS_DEVELOPMENT
         ? []
         : [
-          new TerserPlugin({
-            terserOptions: {
-              compress: { drop_console: true },
-            },
-          }),
-        ],
+            new TerserPlugin({
+              terserOptions: {
+                compress: { drop_console: true },
+              },
+            }),
+          ],
     },
   };
 };
