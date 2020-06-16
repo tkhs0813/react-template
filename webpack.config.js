@@ -18,6 +18,19 @@ module.exports = (env, argv) => {
           exclude: /node_modules/,
           use: [{ loader: 'ts-loader' }, { loader: 'eslint-loader' }],
         },
+        {
+          test: /\.css$/i,
+          use: [
+            'style-loader',
+            {
+              loader: 'css-loader',
+              options: {
+                importLoaders: 1, // importするときに適用するloaderの数を設定、sassとpostcssを使っていた場合は「2」と設定する
+              },
+            },
+            'postcss-loader',
+          ],
+        },
       ],
     },
     resolve: {
